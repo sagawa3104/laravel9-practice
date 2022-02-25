@@ -1,64 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 開発ルール
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## クラス名
 
-## About Laravel
+アッパーキャメルケースとする
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## メソッド名
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+ローワーキャメルとする。
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 変数名
 
-## Learning Laravel
+原則としてローワーキャメルケースとする。
+アプリケーション外とのインターフェース部分などにおいて、当ルールによって著しく可読性を損なう場合、適切な記法で記述すること。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## URI(ルーティング)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### URIの命名方針について
 
-## Laravel Sponsors
++ 単純な単一テーブルに関するCRUDは、テーブルに紐づくモデルの複数形を基にして`Route::resource()`とする。
++ テーブル間の関連を操作する処理は階層化して表現する。(UsersとBooksが多対多の場合、`users/1/books`など)
++ 可能な限り単一単語で階層化する。難しい場合は、単語間はハイフン`-`で連結する。(正規社員登録：`regular-employees/create`)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## コントローラー
 
-### Premium Partners
+### コントローラーの命名方針について
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
++ 原則として、単数形名詞(モデル名など)+ Controllerとする。複数形名詞は用いない。
++ 分割する必要が発生した場合、動詞+形容詞+名詞+Controllerとする。
 
-## Contributing
+## CRUD関連
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 方針
 
-## Code of Conduct
++ 原則として、ユニーク制約をかけるカラム（コードなど）およびカラムの組み合わせは変更不可とする。
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## マイグレーション
 
-## Security Vulnerabilities
+### テーブル名について
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
++ 全てアルファベット小文字
++ 対応するモデルの複数形(iesや不規則変化、単複同形に注意)
++ 他モデルと親子関係(ヘッダ-明細関係)テーブルにおいて的確な単語がない場合、親モデルの単数形_子モデルの複数形とする
++ 中間(多対多関係)テーブルは的確な単語がない場合、元となるテーブルの単数形_単数形とする
++ テーブルの関連を示す以外に名詞_名詞としない。単一の名詞による呼称が的確とならない場合は形容詞_名詞とすること。(例：社員では不的確で正規社員としたい場合 employee→regular_employees) どうしても名詞で修飾する必要がある場合、`~ise`や`~al`といった接尾辞を付与し名詞的活用でないことを明示すること
++ ○○指図、○○実績、○○計画、○○予定などといったトランザクション系の定型句についてはそれぞれ受動態で修飾する。
+    | 定型句 | 英単語 | 例 |
+    | :--: | :--: | :--: |
+    | 指図・指示 | instructed | 出荷指図: instructed_shipments |
+    | 実績 | recorded | 入荷実績: recorded_arrives |
+    | 計画 | planed | 生産計画:planed_productions |
+    | 予定 | scheduled | 出金予定:scheduled_payments |
++ その他、定型的な名詞を形容詞化し、識別のために修飾的に使われる名詞を主とすることを検討する。(受注,発注:sales_order, parchase_order → ordered_sales, ordered_parchases)
 
-## License
+### テーブル作成時
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### ファイル作成コマンド
+
+```shell
+php artisan make:migration create_{テーブル名}_table --create={テーブル名}
+```
+
+### テーブル修正時
+
+#### カラム追加コマンド
+
+```shell
+php artisan make:migration add_{テーブル名}_{カラム名} --create={テーブル名}
+```
+
+#### カラム修正コマンド
+
+```shell
+php artisan make:migration modifiy_{テーブル名}_{カラム名} --create={テーブル名}
+```
+
+原則として、既存テーブルの修正は1ファイル1カラムとする。
+
+## パッケージ関連
+
++ 必要でない`composer update`や`npm update`などは行わないこと。  
+これらコマンドは、原則としてパッケージ名とバージョンを指定したうえで、最小限の影響範囲でしようすること。  
++ 新規にパッケージをインストールする場合は、lockファイルもコミットすること。
+
+## テストコード関連
+
+Laravelの機能を有効にしたい場合(Fakerとか諸々)は`uses(Tests\TestCase::class)`を記述する.
+`befoareAll()`時点ではクラスが作成されていないので、上記`TestCase`を`use()`しても適用されていない。
