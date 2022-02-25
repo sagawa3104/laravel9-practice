@@ -11,7 +11,7 @@
         <title>ログイン</title>
         <header class="header">
             <nav class="header__nav">
-                <a class="header__logo" href="{{ route('home') }}">Laravel-sample Project</a>
+                <a class="header__logo" href="#">Laravel-sample Project</a>
                 <ul class="horizontal-list horizontal-list--right">
                     <li class="horizontal-list__item">
                         <form method="POST" action="{{route('logout')}}">
@@ -32,19 +32,19 @@
                     <label class="side-bar__category__label">マスタ管理</label>
                     <ul class="side-bar__category__list">
                         <li class="side-bar__category__list__item">
-                            <a href="{{ route('processes.index') }}">工程管理</a>
+                            <a href="#">工程管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="{{ route('products.index') }}">品目管理</a>
+                            <a href="#">品目管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="{{ route('parts.index') }}">部位管理</a>
+                            <a href="#">部位管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="{{ route('specifications.index') }}">仕様管理</a>
+                            <a href="#">仕様管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="{{ route('inspecting-forms.index') }}">検査方式管理</a>
+                            <a href="#">検査方式管理</a>
                         </li>
                     </ul>
                 </section>
@@ -53,10 +53,10 @@
                     <label class="side-bar__category__label">実績管理</label>
                     <ul class="side-bar__category__list">
                         <li class="side-bar__category__list__item">
-                            <a href="{{ route('recorded-products.index') }}">生産実績管理</a>
+                            <a href="#">生産実績管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="{{ route('inspections.index') }}">検査実績管理</a>
+                            <a href="#">検査実績管理</a>
                         </li>
                     </ul>
                 </section>
