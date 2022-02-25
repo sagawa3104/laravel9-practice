@@ -1,0 +1,23 @@
+git init
+git flow init
+sail artisan sail:install --devcontainer
+sail down --remove-orphans
+sail up -d
+composer require laravel/fortify
+sail composer require laravel/fortify
+sail artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
+sail artisan migrate:fresh --seed
+sail npm install
+sail npm install react
+sail npm install react-dom
+sail npm install react-router-dom
+sail npm run dev
+php -r "copy('https://readouble.com/laravel/8.x/ja/install-ja-lang-files.php', 'install-ja-lang.php');"
+php -f install-ja-lang.php
+php -r "unlink('install-ja-lang.php');"
+sail -r "copy('https://readouble.com/laravel/8.x/ja/install-ja-lang-files.php', 'install-ja-lang.php');"
+sail php -r "copy('https://readouble.com/laravel/8.x/ja/install-ja-lang-files.php', 'install-ja-lang.php');"
+sail php -f install-ja-lang.php
+sail php -r "unlink('install-ja-lang.php');"
+sail composer require pestphp/pest-plugin-laravel --dev
+sail php artisan pest:install
