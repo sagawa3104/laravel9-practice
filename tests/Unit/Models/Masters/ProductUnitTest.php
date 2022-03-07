@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Masters\Category;
-use App\Models\Masters\CategoryItem;
-use App\Models\Masters\Item;
 use App\Models\Masters\Product;
 use App\Models\Masters\ProductUnit;
 use App\Models\Masters\Unit;
