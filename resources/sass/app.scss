@@ -113,7 +113,7 @@
 
 .form-box{
     justify-content: center;
-    width:380px;
+    width:fit-content;
     &__header{
         border-top-left-radius: 0.5rem;
         border-top-right-radius: 0.5rem;
@@ -124,6 +124,7 @@
         background-color: azure;
         display: flex;
         padding: 1rem;
+        max-height: 980px;
     }
     &__footer{
         border-bottom-left-radius: 0.5rem;
@@ -171,6 +172,12 @@
 
 .form-label{
     padding-bottom: 4px;
+    &--right{
+        padding-left: 1rem;
+    }
+    &--left{
+        padding-right: 1rem;
+    }
 }
 
 .form-message{
@@ -210,10 +217,10 @@
     &-label::before{
         position: absolute;
         content:'';
-        width:20px;
-        height:20px;
-        top:1px;
-        left:1px;
+        width:16px;
+        height:16px;
+        top:2px;
+        left:2px;
         border-radius: 80px;
         background-color: dimgray;
         transition: .25s ease;
@@ -224,6 +231,17 @@
     &-input:checked + &-label::before{
         background-color: dimgray;
         left: 33px;
+    }
+}
+
+.attach-list{
+    display: block;
+    overflow: auto;
+    max-height: 600px;
+    &__item{
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
     }
 }
 
