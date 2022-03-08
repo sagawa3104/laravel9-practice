@@ -32,19 +32,19 @@
                     <label class="side-bar__category__label">マスタ管理</label>
                     <ul class="side-bar__category__list">
                         <li class="side-bar__category__list__item">
-                            <a href="#">工程管理</a>
+                            <a href="{{route('phases.index')}}">工程管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="#">品目管理</a>
+                            <a href="{{route('products.index')}}">品目管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="#">部位管理</a>
+                            <a href="{{route('units.index')}}">部位管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="#">仕様管理</a>
+                            <a href="{{route('categories.index')}}">カテゴリ管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
-                            <a href="#">検査方式管理</a>
+                            <a href="{{route('items.index')}}">項目管理</a>
                         </li>
                     </ul>
                 </section>
