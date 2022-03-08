@@ -2,6 +2,7 @@
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Masters\Category;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -169,3 +170,26 @@ test('カテゴリコード・名称の正常データ', function ($form) {
     'MAPPING',
     'CHECKLIST',
 ]);
+
+test('正常データ時の補間パラメータのテスト', function () {
+
+    // Arrange
+    $data = [
+        'category_code' => str_repeat('a', 32),
+        'category_name' => str_repeat('a', 255),
+        'form' => 'CHECKLIST',
+        'code' => 'uninteded_parameter',
+        'name' => 'uninteded_parameter',
+    ];
+    app()->instance('request', Request::create('', 'GET', $data));
+
+    // Act
+    $formRequest = app(StoreCategoryRequest::class);
+    $input = $formRequest->all();
+
+    // Assert
+    expect($input)->toHaveKeys(['code', 'name', 'is_by_recorded_product'])
+    ->code->not->toBe($data['code'])->toBe($data['category_code'])
+    ->name->not->toBe($data['name'])->toBe($data['category_name'])
+    ->is_by_recorded_product->toBe(isset($data['is_by_recorded_product']));
+});

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -61,4 +62,24 @@ test('品目コード・名称の正常データ', function () {
     // Assert
     expect($isFail)->toBeFalse();
 
+});
+
+test('正常データ時の補間パラメータのテスト', function () {
+
+    // Arrange
+    $data = [
+        'product_name' => str_repeat('a', 255),
+        'code' => 'uninteded_parameter',
+        'name' => 'uninteded_parameter',
+    ];
+    app()->instance('request', Request::create('', 'GET', $data));
+
+    // Act
+    $formRequest = app(UpdateProductRequest::class);
+    $input = $formRequest->all();
+
+    // Assert
+    expect($input)->toHaveKeys(['name'])
+    ->code->not->toBe($data['code'])
+    ->name->not->toBe($data['name'])->toBe($data['product_name']);
 });

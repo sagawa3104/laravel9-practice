@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Requests\UpdateUnitRequest;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -199,3 +200,25 @@ test('部位コード・名称の正常データ', function ($x_length, $y_lengt
     ['1', '1'],
     ['20', '20']
 ]);
+
+test('正常データ時の補間パラメータのテスト', function () {
+
+    // Arrange
+    $data = [
+        'unit_name' => str_repeat('a', 255),
+        'x_length' => 1,
+        'y_length' => 1,
+        'code' => 'uninteded_parameter',
+        'name' => 'uninteded_parameter',
+    ];
+    app()->instance('request', Request::create('', 'GET', $data));
+
+    // Act
+    $formRequest = app(UpdateUnitRequest::class);
+    $input = $formRequest->all();
+
+    // Assert
+    expect($input)->toHaveKeys(['name'])
+    ->code->not->toBe($data['code'])
+    ->name->not->toBe($data['name'])->toBe($data['unit_name']);
+});

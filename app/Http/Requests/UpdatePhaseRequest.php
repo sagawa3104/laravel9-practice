@@ -33,6 +33,18 @@ class UpdatePhaseRequest extends FormRequest
      *
      * @return void
      */
+    protected function prepareForValidation()
+    {
+        // codeは除外する
+        $sanitized = $this->except('code');
+        $this->replace($sanitized);
+    }
+
+    /**
+     * バリーデーション後にデータを補間
+     *
+     * @return void
+     */
     protected function passedValidation()
     {
         $this->merge([

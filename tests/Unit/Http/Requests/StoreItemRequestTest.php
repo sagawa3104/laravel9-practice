@@ -2,6 +2,7 @@
 
 use App\Http\Requests\StoreItemRequest;
 use App\Models\Masters\Item;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -123,4 +124,25 @@ test('項目コード・名称の正常データ', function () {
     // Assert
     expect($isFail)->toBeFalse();
 
+});
+
+test('正常データ時の補間パラメータのテスト', function () {
+
+    // Arrange
+    $data = [
+        'item_code' => str_repeat('a', 32),
+        'item_name' => str_repeat('a', 255),
+        'code' => 'uninteded_parameter',
+        'name' => 'uninteded_parameter',
+    ];
+    app()->instance('request', Request::create('', 'GET', $data));
+
+    // Act
+    $formRequest = app(StoreItemRequest::class);
+    $input = $formRequest->all();
+
+    // Assert
+    expect($input)->toHaveKeys(['code', 'name'])
+    ->code->not->toBe($data['code'])->toBe($data['item_code'])
+    ->name->not->toBe($data['name'])->toBe($data['item_name']);
 });

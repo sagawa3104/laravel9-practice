@@ -2,6 +2,7 @@
 
 use App\Http\Requests\StoreUnitRequest;
 use App\Models\Masters\Unit;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -261,3 +262,26 @@ test('部位コード・名称の正常データ', function ($x_length, $y_lengt
     ['1', '1'],
     ['20', '20']
 ]);
+
+test('正常データ時の補間パラメータのテスト', function () {
+
+    // Arrange
+    $data = [
+        'unit_code' => str_repeat('a', 32),
+        'unit_name' => str_repeat('a', 255),
+        'x_length' => 1,
+        'y_length' => 1,
+        'code' => 'uninteded_parameter',
+        'name' => 'uninteded_parameter',
+    ];
+    app()->instance('request', Request::create('', 'GET', $data));
+
+    // Act
+    $formRequest = app(StoreUnitRequest::class);
+    $input = $formRequest->all();
+
+    // Assert
+    expect($input)->toHaveKeys(['code', 'name'])
+    ->code->not->toBe($data['code'])->toBe($data['unit_code'])
+    ->name->not->toBe($data['name'])->toBe($data['unit_name']);
+});

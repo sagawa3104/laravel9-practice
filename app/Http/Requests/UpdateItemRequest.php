@@ -33,6 +33,18 @@ class UpdateItemRequest extends FormRequest
      *
      * @return void
      */
+    protected function prepareForValidation()
+    {
+        // codeは除外する
+        $sanitized = $this->except('code');
+        $this->replace($sanitized);
+    }
+
+    /**
+     * バリーデーションのためにデータを準備
+     *
+     * @return void
+     */
     protected function passedValidation()
     {
         $this->merge([
