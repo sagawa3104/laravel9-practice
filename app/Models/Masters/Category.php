@@ -12,6 +12,8 @@ class Category extends Model
     protected $fillable = [
         'code',
         'name',
+        'form',
+        'is_by_recorded_product',
     ];
 
     public function items()

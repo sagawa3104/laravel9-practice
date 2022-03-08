@@ -25,6 +25,8 @@ class UpdateItemRequest extends FormRequest
     {
         return [
             'item_name' => 'required|max:255',
+            'is_checking_item' => 'nullable',
+            'is_mapping_item' => 'nullable',
         ];
     }
 
@@ -49,6 +51,8 @@ class UpdateItemRequest extends FormRequest
     {
         $this->merge([
             'name' => $this->item_name,
+            'is_checking_item' => isset($this->is_checking_item),
+            'is_mapping_item' => isset($this->is_mapping_item),
         ]);
     }
 }

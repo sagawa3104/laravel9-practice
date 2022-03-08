@@ -12,6 +12,8 @@ class Item extends Model
     protected $fillable = [
         'code',
         'name',
+        'is_checking_item',
+        'is_mapping_item',
     ];
 
     public function categories()

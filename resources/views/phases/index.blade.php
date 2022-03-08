@@ -6,7 +6,7 @@
     <label class="contents__title">品目管理</label>
     <div class="contents__content">
         <div class="contents__content__actions">
-            <a class="button" href="{{ route('products.create') }}">登録</a>
+            <a class="button" href="{{ route('phases.create') }}">登録</a>
         </div>
         <div class="contents__content__table">
             <table class="list-table">
@@ -18,11 +18,11 @@
                     </tr>
                 </thead>
                 <tbody class="list-table__body">
-                    @foreach ($products as $product)
+                    @foreach ($phases as $phase)
                     <tr>
-                        <td>{{ $product->code }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td><a class="button" href={{ route('products.edit', [$product->id]) }}>編集</a></td>
+                        <td>{{ $phase->code }}</td>
+                        <td>{{ $phase->name }}</td>
+                        <td><a class="button" href={{ route('phases.edit', [$phase->id]) }}>編集</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -31,7 +31,7 @@
             </table>
         </div>
         {{-- ペジネータを作る --}}
-        {{$products->links('pagination::bootstrap-4')}}
+        {{$phases->links('pagination::bootstrap-4')}}
     </div>
 </div>
 @endsection

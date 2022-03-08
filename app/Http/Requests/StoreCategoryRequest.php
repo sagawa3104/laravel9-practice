@@ -26,7 +26,8 @@ class StoreCategoryRequest extends FormRequest
         return [
             'category_code' => 'required|unique:categories,code|max:32',
             'category_name' => 'required|max:255',
-            'form' => 'required|in:MAPPING,CHECKLIST'
+            'form' => 'required|in:MAPPING,CHECKLIST',
+            'is_by_recorded_product' => 'nullable'
         ];
     }
 
@@ -40,6 +41,7 @@ class StoreCategoryRequest extends FormRequest
         $this->merge([
             'code' => $this->category_code,
             'name' => $this->category_name,
+            'is_by_recorded_product' => isset($this->is_by_recorded_product),
         ]);
     }
 }

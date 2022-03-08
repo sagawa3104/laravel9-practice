@@ -12,6 +12,8 @@ class Unit extends Model
     protected $fillable = [
         'code',
         'name',
+        'x_length',
+        'y_length',
     ];
 
     public function products()

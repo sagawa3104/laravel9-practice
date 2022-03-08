@@ -26,6 +26,8 @@ class StoreItemRequest extends FormRequest
         return [
             'item_code' => 'required|unique:items,code|max:32',
             'item_name' => 'required|max:255',
+            'is_checking_item' => 'nullable',
+            'is_mapping_item' => 'nullable',
         ];
     }
 
@@ -39,6 +41,8 @@ class StoreItemRequest extends FormRequest
         $this->merge([
             'code' => $this->item_code,
             'name' => $this->item_name,
+            'is_checking_item' => isset($this->is_checking_item),
+            'is_mapping_item' => isset($this->is_mapping_item),
         ]);
     }
 }

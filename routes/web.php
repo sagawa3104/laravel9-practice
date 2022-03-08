@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PhaseController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +25,9 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 })->middleware(['auth'])->name('home');
+
+Route::resource('products', ProductController::class);
+Route::resource('phases', PhaseController::class);
+Route::resource('units', UnitController::class);
+Route::resource('categories', CategoryController::class);
+Route::resource('items', ItemController::class);
