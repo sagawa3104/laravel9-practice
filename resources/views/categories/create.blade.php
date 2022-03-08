@@ -30,6 +30,25 @@
                                 <p class="form-message form-message--error">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="form__group">
+                            <label class="form-label" for="form">検査方式:</label>
+                            <select class="form-input form-input--select" type="text" id="form" name="form">
+                                <option value="">----</option>
+                                <option value="CHECKLIST">CHECKLIST</option>
+                                <option value="MAPPING">MAPPING</option>
+                            </select>
+                            @error('form')
+                                <p class="form-message form-message--error">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="form__group">
+                            <label class="form-label" for="is_by_recorded_product">製番ごとに項目を登録する:</label>
+                            <input class="toggle-input" type="checkbox" id="is_by_recorded_product" name="is_by_recorded_product" value="1">
+                            <label class="toggle-label" for="is_by_recorded_product"></label>
+                            @error('is_by_recorded_product')
+                                <p class="form-message form-message--error">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <button class="button" type="submit">登録</button>
                     </form>
                 </div>

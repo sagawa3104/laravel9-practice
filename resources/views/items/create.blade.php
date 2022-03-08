@@ -30,6 +30,22 @@
                                 <p class="form-message form-message--error">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="form__group">
+                            <label class="form-label" for="is_mapping_item">マッピング用の項目:</label>
+                            <input class="toggle-input" type="checkbox" id="is_mapping_item" name="is_mapping_item" value="1">
+                            <label class="toggle-label" for="is_mapping_item"></label>
+                            @error('is_mapping_item')
+                                <p class="form-message form-message--error">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="form__group">
+                            <label class="form-label" for="is_checking_item">チェックリスト用の項目:</label>
+                            <input class="toggle-input" type="checkbox" id="is_checking_item" name="is_checking_item" value="1">
+                            <label class="toggle-label" for="is_checking_item"></label>
+                            @error('is_checking_item')
+                                <p class="form-message form-message--error">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <button class="button" type="submit">登録</button>
                     </form>
                 </div>
