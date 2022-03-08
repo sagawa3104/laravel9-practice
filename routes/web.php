@@ -4,7 +4,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PhaseController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ProductUnitController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +29,10 @@ Route::get('/home', function () {
 })->middleware(['auth'])->name('home');
 
 Route::resource('products', ProductController::class);
+Route::get('products/{product}/attach-units', [ProductUnitController::class, 'attachUnits'])->name('products.attach-units');
+Route::put('products/{product}/attach-units', [ProductUnitController::class, 'applyUnits'])->name('products.apply-units');
+Route::get('products/{product}/attach-phases', [InspectionController::class, 'attachPhases'])->name('products.attach-phases');
+Route::put('products/{product}/attach-phases', [InspectionController::class, 'applyPhases'])->name('products.apply-phases');
 Route::resource('phases', PhaseController::class);
 Route::resource('units', UnitController::class);
 Route::resource('categories', CategoryController::class);
