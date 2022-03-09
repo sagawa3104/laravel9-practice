@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProductUnitController;
+use App\Http\Controllers\RecordedProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,3 +38,4 @@ Route::resource('phases', PhaseController::class);
 Route::resource('units', UnitController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('items', ItemController::class);
+Route::resource('recorded-products', RecordedProductController::class);

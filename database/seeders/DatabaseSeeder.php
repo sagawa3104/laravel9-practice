@@ -8,6 +8,7 @@ use App\Models\Masters\Item;
 use App\Models\Masters\Phase;
 use App\Models\Masters\Product;
 use App\Models\Masters\Unit;
+use App\Models\Transactions\RecordedProduct;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -95,6 +96,13 @@ class DatabaseSeeder extends Seeder
                     $categories = collect([$checkingCategories->where('code', $inspection->product->code. '_specifications'), $mappingCategories])->flatten();
                     $inspection->categories()->sync($categories->pluck('id'));
             }
+        });
+
+
+        // ここからトランザクション系
+        // 品目ごとに製造実績
+        $products->each(function($product){
+            RecordedProduct::factory()->for($product)->count(5)->create();
         });
     }
 }

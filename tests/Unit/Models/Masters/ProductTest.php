@@ -5,6 +5,7 @@ use App\Models\Masters\Phase;
 use App\Models\Masters\Unit;
 use App\Models\Masters\Product;
 use App\Models\Masters\ProductUnit;
+use App\Models\Transactions\RecordedProduct;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -60,5 +61,19 @@ test('工程との中間(検査)モデルを取得できる', function () {
     // Assert
     expect($phase)->products->each(function($product){
         $product->inspection->toBeInstanceOf(Inspection::class);
+    });
+});
+
+test('製造実績モデルを複数取得できる', function () {
+    // Arrange
+    $count = 5;
+    $product = Product::factory()->has(RecordedProduct::factory()->count($count))->create();
+
+    // Action
+
+    // Assert
+    expect($product)->recordedProducts->toBeInstanceOf(Illuminate\Database\Eloquent\Collection::class)->toHaveCount(5)
+    ->each(function($recordedProduct){
+        $recordedProduct->toBeInstanceOf(RecordedProduct::class);
     });
 });
