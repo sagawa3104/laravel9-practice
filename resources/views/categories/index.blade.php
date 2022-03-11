@@ -15,6 +15,8 @@
                         <th>カラム1</th>
                         <th>カラム2</th>
                         <th>カラム3</th>
+                        <th>カラム4</th>
+                        <th>カラム5</th>
                     </tr>
                 </thead>
                 <tbody class="list-table__body">
@@ -23,6 +25,8 @@
                         <td>{{ $category->code }}</td>
                         <td>{{ $category->name }}</td>
                         <td><a class="button" href={{ route('categories.edit', [$category->id]) }}>編集</a></td>
+                        <td><a class="button" href={{ route('categories.attach-items', [$category->id]) }}>項目割当て</a></td>
+                        <td><a class="button" href={{ route('categories.attach-specifications', [$category->id]) }}>仕様割当て</a></td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -17,6 +17,7 @@
                         <th>カラム3</th>
                         <th>カラム4</th>
                         <th>カラム5</th>
+                        <th>カラム6</th>
                     </tr>
                 </thead>
                 <tbody class="list-table__body">
@@ -26,6 +27,7 @@
                         <td>{{ $product->name }}</td>
                         <td><a class="button" href={{ route('products.edit', [$product->id]) }}>編集</a></td>
                         <td><a class="button" href={{ route('products.attach-units', [$product->id]) }}>部位割当て</a></td>
+                        <td><a class="button" href={{ route('products.attach-specifications', [$product->id]) }}>仕様割当て</a></td>
                         <td><a class="button" href={{ route('products.attach-phases', [$product->id]) }}>検査登録（工程割当て）</a></td>
                     </tr>
                     @endforeach
