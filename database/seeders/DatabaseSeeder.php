@@ -7,6 +7,7 @@ use App\Models\Masters\Inspection;
 use App\Models\Masters\Item;
 use App\Models\Masters\Phase;
 use App\Models\Masters\Product;
+use App\Models\Masters\Specification;
 use App\Models\Masters\Unit;
 use App\Models\Transactions\RecordedProduct;
 use App\Models\User;
@@ -65,6 +66,7 @@ class DatabaseSeeder extends Seeder
         $mappingItems = Item::factory()->count(20)->isMappingItem()->create();
         $checkingItems = Item::factory()->count(10)->isCheckingItem()->create();
 
+
         //カテゴリに割当て（マッピング）
         $mappingCategories = Category::where('form', 'MAPPING')->get();
         $mappingCategories->each(function ($category) use($mappingItems){
@@ -76,6 +78,10 @@ class DatabaseSeeder extends Seeder
         $checkingCategories->each(function ($category) use($checkingItems){
             $category->items()->sync($checkingItems->random(8)->pluck('id'));
         });
+
+        //仕様生成
+        $mappingSpecifications = Specification::factory()->count(20)->isMappingItem()->create();
+        $checkingSpecifications = Specification::factory()->count(10)->isCheckingItem()->create();
 
         // ここからトランザクション系
         // 品目ごとに製造実績
