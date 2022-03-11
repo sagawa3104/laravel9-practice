@@ -41,6 +41,9 @@
                             <a href="{{route('units.index')}}">部位管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
+                            <a href="{{route('specifications.index')}}">仕様管理</a>
+                        </li>
+                        <li class="side-bar__category__list__item">
                             <a href="{{route('categories.index')}}">カテゴリ管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
@@ -53,7 +56,7 @@
                     <label class="side-bar__category__label">実績管理</label>
                     <ul class="side-bar__category__list">
                         <li class="side-bar__category__list__item">
-                            <a href="#">生産実績管理</a>
+                            <a href="{{route('recorded-products.index')}}">生産実績管理</a>
                         </li>
                         <li class="side-bar__category__list__item">
                             <a href="#">検査実績管理</a>
