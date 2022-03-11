@@ -23,8 +23,4 @@ class Inspection extends Pivot
         return $this->belongsTo(Product::class);
     }
 
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class, null, 'inspection_id')->withPivot(['id'])->using(CategoryInspection::class);
-    }
 }

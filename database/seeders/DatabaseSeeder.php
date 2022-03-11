@@ -77,28 +77,6 @@ class DatabaseSeeder extends Seeder
             $category->items()->sync($checkingItems->random(8)->pluck('id'));
         });
 
-        // 検査
-        $inspections = Inspection::all();
-        $inspections->each(function($inspection)use($mappingCategories, $checkingCategories){
-            [$mappingCategoriesA, $mappingCategoriesB] = $mappingCategories->split(2);
-            switch($inspection->phase->name){
-                case 'マッピングA':
-                    $inspection->categories()->sync($mappingCategoriesA->pluck('id'));
-                    break;
-                case 'マッピングB':
-                    $inspection->categories()->sync($mappingCategoriesB->pluck('id'));
-                    break;
-                case 'チェックリスト':
-                    $checkingCategory = $checkingCategories->where('code', $inspection->product->code. '_specifications');
-                    $inspection->categories()->sync($checkingCategory->pluck('id'));
-                    break;
-                case '最終検査':
-                    $categories = collect([$checkingCategories->where('code', $inspection->product->code. '_specifications'), $mappingCategories])->flatten();
-                    $inspection->categories()->sync($categories->pluck('id'));
-            }
-        });
-
-
         // ここからトランザクション系
         // 品目ごとに製造実績
         $products->each(function($product){

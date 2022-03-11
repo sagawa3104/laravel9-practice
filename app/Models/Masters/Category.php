@@ -20,9 +20,4 @@ class Category extends Model
     {
         return $this->belongsToMany(Item::class)->withPivot(['id'])->using(CategoryItem::class);
     }
-
-    public function inspections()
-    {
-        return $this->belongsToMany(Inspection::class, null, null, 'inspection_id')->withPivot(['id'])->using(CategoryInspection::class);
-    }
 }
