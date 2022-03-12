@@ -35,6 +35,14 @@
                                 <p class="form-message form-message--error">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="form__group">
+                            <label class="form-label" for="is_created_recorded_inspections">検査実績のひな形を作成する:</label>
+                            <input class="toggle-input" type="checkbox" id="is_created_recorded_inspections" name="is_created_recorded_inspections" value="1">
+                            <label class="toggle-label" for="is_created_recorded_inspections"></label>
+                            @error('is_created_recorded_inspections')
+                                <p class="form-message form-message--error">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <button class="button" type="submit">登録</button>
                     </form>
                 </div>

@@ -25,7 +25,8 @@ class StoreRecordedProductRequest extends FormRequest
     {
         return [
             'product' => 'required|exists:products,id',
-            'recorded_product_code' => 'required|unique:recorded_products,code|max:32'
+            'recorded_product_code' => 'required|unique:recorded_products,code|max:32',
+            'is_created_recorded_inspections' => 'nullable',
         ];
     }
 
@@ -38,6 +39,7 @@ class StoreRecordedProductRequest extends FormRequest
     {
         $this->merge([
             'code' => $this->recorded_product_code,
+            'is_created_recorded_inspections' => isset($this->is_created_recorded_inspections),
         ]);
     }
 }

@@ -46,7 +46,12 @@ class RecordedProductController extends Controller
     {
         $input = $request->all();
         $product = Product::find($input['product']);
-        $product->recordedProducts()->create($input);
+        $recordedProduct = $product->recordedProducts()->create($input);
+
+        if($input['is_created_recorded_inspections']){
+            $recordedProduct->createRecordedInspections();
+            $recordedProduct->save();
+        }
 
         return redirect(route('recorded-products.index'));
     }
@@ -89,7 +94,10 @@ class RecordedProductController extends Controller
         $input = $request->all();
         $product = Product::find($input['product']);
 
-        $recorded_product->product()->associate($product);
+        $recorded_product->reassociate($product);
+        if($input['is_created_recorded_inspections']){
+            $recorded_product->createRecordedInspections();
+        }
         $recorded_product->save();
 
         return redirect(route('recorded-products.index'));
@@ -104,6 +112,18 @@ class RecordedProductController extends Controller
     public function destroy(RecordedProduct $recorded_product)
     {
         $recorded_product->delete();
+
+        return redirect(route('recorded-products.index'));
+    }
+
+    public function createRecordedInsectionsAll()
+    {
+        $recordedProducts = RecordedProduct::isCreatedRecordedInspections(false)->get();
+
+        $recordedProducts->each(function(RecordedProduct $recordedProduct){
+            $recordedProduct->createRecordedInspections();
+            $recordedProduct->save();
+        });
 
         return redirect(route('recorded-products.index'));
     }

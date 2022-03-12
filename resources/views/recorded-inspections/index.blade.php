@@ -3,14 +3,9 @@
 @section('content')
 
 <div class="contents-wrapper">
-    <label class="contents__title">製造実績管理</label>
+    <label class="contents__title">検査実績管理</label>
     <div class="contents__content">
         <div class="contents__content__actions">
-            <a class="button" href="{{ route('recorded-products.create') }}">登録</a>
-            <form method="POST" action="{{ route('recorded-products.create-recorded-inspections-all') }}">
-                @csrf
-                <button type="submit" class="button ml-1">検査実績ひな型作成</button>
-            </form>
         </div>
         <div class="contents__content__table">
             <table class="list-table">
@@ -23,12 +18,12 @@
                     </tr>
                 </thead>
                 <tbody class="list-table__body">
-                    @foreach ($recordedProducts as $recordedProduct)
+                    @foreach ($recordedInspections as $recordedInspection)
                     <tr>
-                        <td>{{ $recordedProduct->code }}</td>
-                        <td>{{ $recordedProduct->product->name }}</td>
-                        <td>{{ $recordedProduct->is_created_recorded_inspections? '済':'未' }}</td>
-                        <td><a class="button" href={{ route('recorded-products.edit', [$recordedProduct->id]) }}>編集</a></td>
+                        <td>{{ $recordedInspection->phase->name }}</td>
+                        <td>{{ $recordedInspection->recordedProduct->product->name }}</td>
+                        <td>{{ $recordedInspection->recordedProduct->code }}</td>
+                        <td><a class="button" href={{ route('recorded-inspections.show', [$recordedInspection->id]) }}>詳細</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -37,7 +32,7 @@
             </table>
         </div>
         {{-- ペジネータを作る --}}
-        {{$recordedProducts->links('pagination::bootstrap-4')}}
+        {{$recordedInspections->links('pagination::bootstrap-4')}}
     </div>
 </div>
 @endsection

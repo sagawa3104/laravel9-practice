@@ -25,6 +25,7 @@ class UpdateRecordedProductRequest extends FormRequest
     {
         return [
             'product' => 'required|exists:products,id',
+            'is_create_recorded_inspections' => 'nullable',
         ];
     }
 
@@ -38,5 +39,17 @@ class UpdateRecordedProductRequest extends FormRequest
         // codeは除外する
         $sanitized = $this->except('code');
         $this->replace($sanitized);
+    }
+
+    /**
+     * バリーデーション後にデータを補間
+     *
+     * @return void
+     */
+    protected function passedValidation()
+    {
+        $this->merge([
+            'is_created_recorded_inspections' => isset($this->is_created_recorded_inspections),
+        ]);
     }
 }

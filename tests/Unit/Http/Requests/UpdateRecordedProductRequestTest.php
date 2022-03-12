@@ -80,5 +80,6 @@ test('正常データ時の補間パラメータのテスト', function () {
     $input = $formRequest->all();
 
     // Assert
-    expect($input)->code->not->toBe($data['code']);
+    expect($input)->code->not->toBe($data['code'])
+    ->is_created_recorded_inspections->toBe(isset($data['is_created_recorded_inspections']));
 });

@@ -20,6 +20,7 @@ class RecordedProductFactory extends Factory
     {
         return [
             'code' => 'RPN_'. sprintf('%04d', self::$sequence++),
+            'is_created_recorded_inspections' => false,
         ];
     }
 }

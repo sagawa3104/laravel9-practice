@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="contents-wrapper">
-    <label class="contents__title">製造実績管理&gt;変更</label>
+    <label class="contents__title">検査実績管理&gt;変更</label>
     <div class="contents__content">
         <div class="contents__content__actions">
             <a class="button button--cancel" href="{{ route('recorded-products.index') }}">戻る</a>
@@ -11,14 +11,14 @@
         <div class="contents__content__form">
             <div class="form-box">
                 <div class="form-box__header">
-                    <h1>製造実績情報を入力</h1>
+                    <h1>検査実績情報を入力</h1>
                 </div>
                 <div class="form-box__content">
                     <form class="form" method="POST" action="{{ route('recorded-products.update', [$recordedProduct->id]) }}">
                         @method('PUT')
                         @csrf
                         <div class="form__group">
-                            <label class="form-label" for="code">製造実績コード:</label>
+                            <label class="form-label" for="code">検査実績コード:</label>
                             <input class="form-input form-input" type="text" id="code" name="recorded_product_code" value="{{$recordedProduct->code}}" disabled>
                         </div>
                         <div class="form__group">

@@ -107,7 +107,7 @@ test('製造番号のDBユニーク違反', function () {
 
 });
 
-test('品目コード・名称の正常データ', function () {
+test('品目・製番コードの正常データ', function () {
 
     // Arrange
     $data = [
@@ -142,7 +142,8 @@ test('正常データ時の補間パラメータのテスト', function () {
 
     // Assert
     expect($input)->toHaveKeys(['code'])
-    ->code->not->toBe($data['code'])->toBe($data['recorded_product_code']);
+    ->code->not->toBe($data['code'])->toBe($data['recorded_product_code'])
+    ->is_created_recorded_inspections->toBe(isset($data['is_created_recorded_inspections']));
 });
 
 

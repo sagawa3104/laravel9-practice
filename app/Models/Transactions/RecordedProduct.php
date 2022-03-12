@@ -13,6 +13,7 @@ class RecordedProduct extends Model
 
     protected $fillable = [
         'code',
+        'is_created_recorded_inspections',
     ];
 
     public function product()
@@ -24,4 +25,31 @@ class RecordedProduct extends Model
     {
         return $this->belongsToMany(Phase::class, 'recorded_inspections')->as('recordedInspection')->withPivot(['id'])->using(RecordedInspection::class);;
     }
+
+    /**
+     * 検査実績を作成済か否かでフィルタリング
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $isCreatedRecordedInspection
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsCreatedRecordedInspections($query, $isCreatedRecordedInspection=true)
+    {
+        return $query->where('is_created_recorded_inspections', $isCreatedRecordedInspection);
+    }
+
+    public function createRecordedInspections()
+    {
+        $this->phases()->attach( $this->product->phases->pluck('id') );
+        $this->is_created_recorded_inspections = true;
+    }
+
+    public function reassociate(Product $product){
+        // 以前の品目に紐づく検査実績を削除
+        $this->phases()->detach();
+        $this->is_created_recorded_inspections = false;
+        $this->product()->associate($product);
+    }
+
+
 }
