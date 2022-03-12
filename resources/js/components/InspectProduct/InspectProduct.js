@@ -10,11 +10,14 @@ const InspectProduct = () => {
     const [inspection, setInspection] = useState();
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get('http://localhost/api/inspections/' + params.inspectId);
+            const res = await axios.get('http://localhost/api/inspections/' + params.recordedInspectionId);
             setInspection(res.data);
         };
         fetchData();
     }, []);
+
+    const [categories, setCategories] = useState();
+
 
     const [selectedCell, setSelectedCell] = useState({});
     const selectCell = (xPoint, yPoint) => {

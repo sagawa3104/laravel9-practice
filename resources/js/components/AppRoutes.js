@@ -8,7 +8,7 @@ function AppRoutes() {
         <BrowserRouter>
             <Routes>
                 <Route path="/react/search" element={<SearchInspection />} />
-                <Route path="/react/inspect/:inspectId" element={<InspectProduct />} />
+                <Route path="/react/inspect/:recordedInspectionId" element={<InspectProduct />} />
             </Routes>
         </BrowserRouter>
     );

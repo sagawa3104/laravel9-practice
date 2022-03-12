@@ -10,6 +10,7 @@ use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProductSpecificationController;
 use App\Http\Controllers\ProductUnitController;
+use App\Http\Controllers\ReactController;
 use App\Http\Controllers\RecordedInspectionController;
 use App\Http\Controllers\RecordedProductController;
 use App\Http\Controllers\SpecificationController;
@@ -53,3 +54,7 @@ Route::resource('specifications', SpecificationController::class);
 Route::post('recorded-products/create-recorded-inspections-all', [RecordedProductController::class, 'createRecordedInsectionsAll'])->name('recorded-products.create-recorded-inspections-all');
 Route::resource('recorded-products', RecordedProductController::class);
 Route::resource('recorded-inspections', RecordedInspectionController::class);
+
+
+Route::get('react', [ReactController::class, 'index'])->name('react.index');
+Route::get('react/{any}', [ReactController::class, 'index'])->where('any', '.*');

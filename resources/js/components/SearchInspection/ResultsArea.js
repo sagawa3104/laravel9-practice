@@ -15,9 +15,8 @@ const ResultsArea = (props) => {
                     <thead className="list-table__head">
                         <tr>
                             <th>製番</th>
-                            <th>工程</th>
                             <th>品目</th>
-                            <th>方式</th>
+                            <th>工程</th>
                             <th>検査</th>
                         </tr>
                     </thead>

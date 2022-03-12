@@ -20,4 +20,26 @@ class RecordedInspection extends Pivot
     {
         return $this->belongsTo(RecordedProduct::class);
     }
+
+    /**
+     * 製番・工程での検索クエリ
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  array  $param
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $param)
+    {
+        if(isset($param['code'])){
+            $query->whereIn('recorded_product_id', RecordedProduct::where('code', $param['code'])->select('recorded_products.id'));
+        }
+        if(isset($param['phase'])){
+            $query->whereIn('phase_id', Phase::where('id', $param['phase'])->select('phases.id'));
+        }
+        $query->with([
+            'phase',
+            'recordedProduct',
+            'recordedProduct.product'
+        ]);
+        return $query;
+    }
 }

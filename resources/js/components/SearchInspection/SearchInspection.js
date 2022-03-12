@@ -4,21 +4,21 @@ import SearchArea from './SearchArea';
 
 const SearchInspection = () => {
 
-    const [processes, setProcesses] = useState([]);
+    const [phases, setPhases] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get('http://localhost/api/processes');
-            setProcesses(res.data);
+            const res = await axios.get('http://localhost/api/phases');
+            setPhases(res.data);
         };
         fetchData();
     }, []);
 
     const [results, setResults] = useState();
-    const fetchData = async (recordedProductNumber,process) => {
-        const res = await axios.get('http://localhost/api/inspections', {
+    const fetchData = async (recordedProductCode,phase) => {
+        const res = await axios.get('http://localhost/api/recorded-inspections', {
             params:{
-                'recorded_number' : recordedProductNumber,
-                'process' : process,
+                'code' : recordedProductCode,
+                'phase' : phase,
             }
         });
         setResults(res.data);
@@ -26,7 +26,7 @@ const SearchInspection = () => {
 
     return(
         <div className="react-wrapper">
-            <SearchArea processes={processes} fetchData={fetchData} />
+            <SearchArea phases={phases} fetchData={fetchData} />
             <ResultsArea results={results} />
         </div>
     )
