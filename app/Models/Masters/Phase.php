@@ -16,6 +16,11 @@ class Phase extends Model
         'name',
     ];
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class)->withPivot(['id'])->using(CategoryPhase::class);
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'inspections')->withPivot(['id'])->as('inspection')->using(Inspection::class);

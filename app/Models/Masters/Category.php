@@ -21,6 +21,11 @@ class Category extends Model
         return $this->belongsToMany(Item::class)->withPivot(['id'])->using(CategoryItem::class);
     }
 
+    public function phases()
+    {
+        return $this->belongsToMany(Phase::class)->withPivot(['id'])->using(CategoryPhase::class);
+    }
+
     public function specifications()
     {
         return $this->belongsToMany(Specification::class)->withPivot(['id'])->using(CategorySpecification::class);

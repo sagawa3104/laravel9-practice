@@ -15,6 +15,7 @@
                         <th>カラム1</th>
                         <th>カラム2</th>
                         <th>カラム3</th>
+                        <th>カラム4</th>
                     </tr>
                 </thead>
                 <tbody class="list-table__body">
@@ -23,6 +24,7 @@
                         <td>{{ $phase->code }}</td>
                         <td>{{ $phase->name }}</td>
                         <td><a class="button" href={{ route('phases.edit', [$phase->id]) }}>編集</a></td>
+                        <td><a class="button" href={{ route('phases.attach-categories', [$phase->id]) }}>カテゴリ割当て</a></td>
                     </tr>
                     @endforeach
                 </tbody>

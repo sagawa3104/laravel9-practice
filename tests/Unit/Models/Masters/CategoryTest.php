@@ -2,8 +2,10 @@
 
 use App\Models\Masters\Category;
 use App\Models\Masters\CategoryItem;
+use App\Models\Masters\CategoryPhase;
 use App\Models\Masters\CategorySpecification;
 use App\Models\Masters\Item;
+use App\Models\Masters\Phase;
 use App\Models\Masters\Specification;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -32,6 +34,32 @@ test('項目との中間モデルを取得できる', function () {
     // Assert
     expect($item)->categories->each(function($category){
         $category->pivot->toBeInstanceOf(CategoryItem::class);
+    });
+});
+
+test('工程モデルを複数取得できる', function () {
+    // Arrange
+    $count = 5;
+    $category = Category::factory()->has(Phase::factory()->count($count))->create();
+
+    // Action
+
+    // Assert
+    expect($category)->phases->toBeInstanceOf(Illuminate\Database\Eloquent\Collection::class)->toHaveCount(5)
+    ->each(function($item){
+        $item->toBeInstanceOf(Phase::class);
+    });
+});
+
+test('工程との中間モデルを取得できる', function () {
+    // Arrange
+    Category::factory()->has(Phase::factory())->create();
+
+    // Action
+    $phase = Phase::first();
+    // Assert
+    expect($phase)->categories->each(function($category){
+        $category->pivot->toBeInstanceOf(CategoryPhase::class);
     });
 });
 
