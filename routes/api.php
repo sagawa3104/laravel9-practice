@@ -23,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('phases', [PhaseController::class, 'index']);
 Route::get('recorded-inspections', [RecordedInspectionController::class, 'index']);
 Route::get('recorded-inspections/{recorded_inspection}', [RecordedInspectionController::class, 'show']);
+Route::get('recorded-inspections/{recorded_inspection}/categories', [RecordedInspectionController::class, 'categories']);
+Route::get('recorded-inspections/{recorded_inspection}/units', [RecordedInspectionController::class, 'units']);

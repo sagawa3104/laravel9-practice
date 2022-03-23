@@ -81,6 +81,10 @@
             border-radius: 0.5rem;
             border-style: ridge;
             border-width: 1px;
+            &[data-selected="true"]{
+                background-color: dimgray;
+                color: white;
+            }
         }
     }
 }
@@ -387,12 +391,12 @@
     padding-top: 1rem;
 }
 
-.image-area{
+.action-area{
     display: flex;
     padding-top: 1rem;
 }
 
-.image-box{
+.plot-box{
     width:480px;
     height:480px;
     background-color: azure;
@@ -403,7 +407,7 @@
         width:480px;
         height:auto;
     }
-    &__plot-table{
+    &__grid{
         position: absolute;
         z-index: 600;
         width:100%;
@@ -440,12 +444,16 @@
     padding-right: 0.5rem;
 }
 
+.center-block{
+}
+
 .right-block{
     padding-left: 0.5rem;
 }
 
 .detail-area{
     padding-top: 1rem;
+    padding-left: 1rem;
 }
 
 .plot-table{
@@ -462,6 +470,44 @@
     &__cell{
         border-style: solid;
         border-width: 1px;
+    }
+}
+
+// モーダル関係
+.react-modal{
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 60px 10px;
+    text-align: center;
+    &__overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: black;
+        opacity: 0.5;
+        z-index: 10;
+    }
+    &__window{
+        display: inline-block;
+        position: relative;
+        z-index: 20;
+        text-align: left;
+        &__close-mark{
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: inline-block;
+            background-color: lightgray;
+            border-top-right-radius: 0.5rem;
+            font-size: 1.25rem;
+            padding: 4px;
+        }
     }
 }
 
