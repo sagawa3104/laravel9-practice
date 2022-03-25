@@ -15,18 +15,27 @@ class RecordedInspectionController extends Controller
         return $recordedInspections;
     }
 
-    public function show(RecordedInspection $inspection)
+    public function show(RecordedInspection $recorded_inspection)
     {
-        $inspection->load([
-            'process',
+        $recorded_inspection->load([
+            'phase',
             'recordedProduct',
             'recordedProduct.product',
-            'inspectionDetails',
-            'inspectionDetails.recordedMappingItem',
-            'inspectionDetails.recordedMappingItem.mappingItem',
-            'inspectionDetails.recordedMappingItem.mappingItem.processPart',
-            'inspectionDetails.recordedMappingItem.mappingItem.processPart.part',
         ]);
-        return $inspection;
+        return $recorded_inspection;
+    }
+
+    public function categories(RecordedInspection $recorded_inspection)
+    {
+        $categories = $recorded_inspection->phase->categories->load(['items']);
+
+        return $categories;
+    }
+
+    public function units(RecordedInspection $recorded_inspection)
+    {
+        $units = $recorded_inspection->recordedProduct->product->units;
+
+        return $units;
     }
 }
