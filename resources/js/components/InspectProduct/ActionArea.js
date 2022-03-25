@@ -1,5 +1,6 @@
 import ActionList from './ActionList';
 import CategoryList from "./CategoryList";
+import DetailArea from './DetailArea';
 import PlotBox from './PlotBox';
 import UnitList from "./UnitList";
 
@@ -12,7 +13,9 @@ const ActionArea = (props) => {
                 <UnitList {...props} />
             </div>
             <div className='center-area'>
-                <PlotBox {...props} />
+                {props.selectedCategory.form==='MAPPING'? <PlotBox {...props} />:
+                <DetailArea />
+                }
             </div>
             <div className="right-block">
                 <ActionList {...props} />

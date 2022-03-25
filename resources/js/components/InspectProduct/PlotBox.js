@@ -1,11 +1,10 @@
 import PlotTableRow from "./PlotTableRow";
 
-const PlotBox = ({details, selectedUnit}) => {
+const PlotBox = (props) => {
     const details = props.details.filter(detail => detail.unitId === props.selectedUnit.id);
     const rowCount = props.selectedUnit.y_length;
     const childProps = {...props};
     childProps.details = [...details];
-    console.log(details);
     const rows = [...Array(rowCount)].map((value, index) => (<PlotTableRow key={index} rowNum={index + 1} {...childProps}/>) );
 
     return(
