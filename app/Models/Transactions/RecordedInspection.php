@@ -21,6 +21,11 @@ class RecordedInspection extends Pivot
         return $this->belongsTo(RecordedProduct::class);
     }
 
+    public function recordedInspectionDetails()
+    {
+        return $this->hasMany(RecordedInspectionDetail::class, 'recorded_inspection_id');
+    }
+
     /**
      * 製番・工程での検索クエリ
      * @param  \Illuminate\Database\Eloquent\Builder  $query

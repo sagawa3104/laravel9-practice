@@ -3,6 +3,7 @@
 use App\Models\Masters\Phase;
 use App\Models\Masters\Product;
 use App\Models\Transactions\RecordedInspection;
+use App\Models\Transactions\RecordedInspectionDetail;
 use App\Models\Transactions\RecordedProduct;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -24,6 +25,21 @@ test('製造実績モデルを取得できる', function () {
     $recordedInspection = RecordedInspection::first();
     // Assert
     expect($recordedInspection)->recordedProduct->toBeInstanceOf(RecordedProduct::class);
+});
+
+test('検査実績明細モデルを複数取得できる', function () {
+    // Arrange
+    $recordedInspection = RecordedInspection::first();
+    RecordedInspectionDetail::factory()->count(2)->for($recordedInspection)->state(['type' => 'MAPPING'])->create();
+
+    // Action
+    $recordedInspection->refresh();
+
+    // Assert
+    expect($recordedInspection)->recordedInspectionDetails->toBeInstanceOf(Illuminate\Database\Eloquent\Collection::class)->toHaveCount(2)
+    ->each(function($recordedInspectionDetail){
+        $recordedInspectionDetail->toBeInstanceOf(RecordedInspectionDetail::class);
+    });
 });
 
 test('検索パラメータに合致する検査実績モデルを取得する_工程', function(){
