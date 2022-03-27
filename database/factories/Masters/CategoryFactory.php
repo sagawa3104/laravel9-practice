@@ -22,7 +22,7 @@ class CategoryFactory extends Factory
         return [
             'name' => 'カテゴリ名称'. sprintf('%04d', self::$sequence),
             'code' => 'CC_'. sprintf('%04d', self::$sequence++),
-            'form' => 'MAPPING',
+            'form' => $this->faker->randomElement(['MAPPING', 'CHECKLIST']),
             'is_by_recorded_product' => false,
         ];
     }

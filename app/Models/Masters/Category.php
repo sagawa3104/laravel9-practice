@@ -30,4 +30,30 @@ class Category extends Model
     {
         return $this->belongsToMany(Specification::class)->withPivot(['id'])->using(CategorySpecification::class);
     }
+
+    /**
+     * マッピング用のカテゴリだった場合、与えられた関数を実行する。
+     *
+     * @param callable $callback
+     *
+     * @return $this|false
+     */
+    public function isMappingThen(callable $callback){
+        if($this->form !== 'MAPPING') return false;
+
+        return $callback($this);
+    }
+
+    /**
+     * チェックリスト用のカテゴリだった場合、与えられた関数を実行する。
+     *
+     * @param callable $callback
+     *
+     * @return $this|false
+     */
+    public function isCheckingThen(callable $callback){
+        if($this->form !== 'CHECKLIST') return false;
+
+        return $callback($this);
+    }
 }

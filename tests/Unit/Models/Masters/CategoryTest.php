@@ -88,3 +88,28 @@ test('仕様との中間モデルを取得できる', function () {
         $category->pivot->toBeInstanceOf(CategorySpecification::class);
     });
 });
+
+
+test('マッピングカテゴリに対するisMappingThen・isCheckingThenメソッドのテスト', function () {
+    // Arrange
+    $category = Category::factory()->create([
+        'form' => 'MAPPING',
+    ]);
+
+    // Action
+    // Assert
+    expect($category)->isMappingThen(fn($category) => true)->toBeTrue();
+    expect($category)->isCheckingThen(fn($category) => true)->toBeFalse();
+});
+
+test('チェックリストカテゴリカテゴリに対するisMappingThen・isCheckingThenメソッドのテスト', function () {
+    // Arrange
+    $category = Category::factory()->create([
+        'form' => 'CHECKLIST',
+    ]);
+
+    // Action
+    // Assert
+    expect($category)->isMappingThen(fn($category) => true)->toBeFalse();
+    expect($category)->isCheckingThen(fn($category) => true)->toBeTrue();
+});

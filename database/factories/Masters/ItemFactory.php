@@ -18,11 +18,12 @@ class ItemFactory extends Factory
      */
     public function definition()
     {
+        $bool = $this->faker->boolean();
         return [
             'name' => '項目名称'. sprintf('%04d', self::$sequence),
             'code' => 'IC_'. sprintf('%04d', self::$sequence++),
-            'is_checking_item' => $this->faker->boolean(),
-            'is_mapping_item' => $this->faker->boolean(),
+            'is_checking_item' => $bool,
+            'is_mapping_item' => !$bool,
         ];
     }
 

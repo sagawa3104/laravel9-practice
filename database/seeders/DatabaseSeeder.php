@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Masters\Category;
-use App\Models\Masters\Inspection;
 use App\Models\Masters\Item;
 use App\Models\Masters\Phase;
 use App\Models\Masters\Product;
@@ -31,7 +30,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(1)->unverified()->create();
 
         // カテゴリ生成
-        Category::factory()->count(3)->create();
+        $categories = Category::factory()->count(3)->create();
 
         //工程生成
         $phases = Phase::factory()->count(4)->state(new Sequence(
@@ -44,49 +43,54 @@ class DatabaseSeeder extends Seeder
         //部位生成
         $units = Unit::factory()->count(5)->create();
 
+        //仕様生成
+        $specifications = Specification::factory()->count(30)->create();
+        // 項目生成
+        $items = Item::factory()->count(30)->create();
+
         //品目生成
         $products = Product::factory()->count(3)->create();
-        //品目ごとの仕様カテゴリ生成
-        $products->each(function($product){
-            Category::factory()->create([
-                'name' => $product->name. '_仕様',
-                'code' => $product->code. '_specifications',
-                'form' => 'CHECKLIST'
-            ]);
-        });
         // 品目ごとに中間テーブル生成
-        $products->each(function($product) use($phases, $units){
+        $products->each(function($product) use($phases, $units, $specifications){
             // 品目部位
             $product->units()->sync($units->pluck('id'));
+            // 品目仕様
+            $product->specifications()->sync($specifications->pluck('id'));
             // 検査（工程品目）
             $product->phases()->sync($phases->pluck('id'));
         });
 
-        //項目生成
-        $mappingItems = Item::factory()->count(20)->isMappingItem()->create();
-        $checkingItems = Item::factory()->count(10)->isCheckingItem()->create();
+        //カテゴリに割当て
+        $categories->each(function(Category $category) use($phases, $specifications, $items){
+            $category->phases()->sync($phases->pluck('id'));
 
+            $category->isMappingThen(function($category) use($specifications, $items){
+                $specificationIds = $specifications->where('is_mapping_item', true)->pluck('id');
+                $itemIds = $items->where('is_mapping_item', true)->pluck('id');
+                // 件数から-3した分だけランダムに登録
+                $category->specifications()->sync($specificationIds->random($specificationIds->count()-3));
+                $category->items()->sync($itemIds->random($itemIds->count()-3));
+            });
 
-        //カテゴリに割当て（マッピング）
-        $mappingCategories = Category::where('form', 'MAPPING')->get();
-        $mappingCategories->each(function ($category) use($mappingItems){
-            $category->items()->sync($mappingItems->random(15)->pluck('id'));
+            $category->isCheckingThen(function($category) use($specifications, $items){
+                $specificationIds = $specifications->where('is_mapping_item', true)->pluck('id');
+                $itemIds = $items->where('is_mapping_item', true)->pluck('id');
+                // 件数から-3した分だけランダムに登録
+                $category->specifications()->sync($specificationIds->random($specificationIds->count()-3));
+                $category->items()->sync($itemIds->random($itemIds->count()-3));
+            });
         });
 
-        //カテゴリに割当て（チェックリスト）
-        $checkingCategories = Category::where('form', 'CHECKLIST')->where('is_by_recorded_product', false)->get();
-        $checkingCategories->each(function ($category) use($checkingItems){
-            $category->items()->sync($checkingItems->random(8)->pluck('id'));
-        });
-
-        //仕様生成
-        $mappingSpecifications = Specification::factory()->count(20)->isMappingItem()->create();
-        $checkingSpecifications = Specification::factory()->count(10)->isCheckingItem()->create();
 
         // ここからトランザクション系
         // 品目ごとに製造実績
         $products->each(function($product){
-            RecordedProduct::factory()->for($product)->count(5)->create();
+            $recordedProducts = RecordedProduct::factory()->for($product)->count(5)->create();
+            $recordedProducts->each(function($recordedProduct){
+                // 検査実績の生成
+                $recordedProduct->createRecordedInspections();
+                $recordedProduct->save();
+            });
         });
     }
 }
