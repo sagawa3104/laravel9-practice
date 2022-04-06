@@ -73,8 +73,8 @@ class DatabaseSeeder extends Seeder
             });
 
             $category->isCheckingThen(function($category) use($specifications, $items){
-                $specificationIds = $specifications->where('is_mapping_item', true)->pluck('id');
-                $itemIds = $items->where('is_mapping_item', true)->pluck('id');
+                $specificationIds = $specifications->where('is_checking_item', true)->pluck('id');
+                $itemIds = $items->where('is_checking_item', true)->pluck('id');
                 // 件数から-3した分だけランダムに登録
                 $category->specifications()->sync($specificationIds->random($specificationIds->count()-3));
                 $category->items()->sync($itemIds->random($itemIds->count()-3));
