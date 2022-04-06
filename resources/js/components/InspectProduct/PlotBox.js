@@ -1,7 +1,7 @@
 import PlotTableRow from "./PlotTableRow";
 
 const PlotBox = (props) => {
-    const details = props.details.filter(detail => detail.unitId === props.selectedUnit.id);
+    const details = props.mappingDetails.filter(detail => detail.unitId === props.selectedUnit.id);
     const rowCount = props.selectedUnit.y_length;
     const childProps = {...props};
     childProps.details = [...details];

@@ -1,8 +1,8 @@
-import DetailRow from "./DetailRow";
+import CheckingDetailRow from "./CheckingDetailRow";
 
-const DetailArea = ({selectedCell, mappingDetails, selectedUnit}) => {
-    const displayDetails = mappingDetails.filter(detail => detail.unitId === selectedUnit.id && detail.xPoint === selectedCell.xPoint && detail.yPoint === selectedCell.yPoint);
-    const rows = displayDetails.map((detail, index) => <DetailRow key={index} detail={detail} />);
+const CheckingDetailArea = ({checkingDetails, selectedCategory, checkItem, uncheckItem}) => {
+    const checkingItems = selectedCategory.items;
+    const itemRows = checkingItems.map((item, key) => <CheckingDetailRow {...{key, item, checkingDetails, checkItem, uncheckItem}} type="ITEM" />)
     return(
         <section className="detail-area">
             <div className="result-details-box">
@@ -11,11 +11,12 @@ const DetailArea = ({selectedCell, mappingDetails, selectedUnit}) => {
                         <tr>
                             <th>カラム1</th>
                             <th>カラム2</th>
+                            <th>OK/NG</th>
                             <th>カラム3</th>
                         </tr>
                     </thead>
                     <tbody className="list-table__body">
-                        {rows}
+                    {itemRows}
                     </tbody>
                     <tfoot className="list-table__foot">
                     </tfoot>
@@ -25,4 +26,4 @@ const DetailArea = ({selectedCell, mappingDetails, selectedUnit}) => {
     )
 }
 
-export default DetailArea;
+export default CheckingDetailArea;

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Masters\Phase;
 use App\Models\Transactions\RecordedInspection;
 use Illuminate\Http\Request;
 
@@ -27,7 +26,7 @@ class RecordedInspectionController extends Controller
 
     public function categories(RecordedInspection $recorded_inspection)
     {
-        $categories = $recorded_inspection->phase->categories->load(['items']);
+        $categories = $recorded_inspection->phase->categories->load(['items', 'specifications']);
 
         return $categories;
     }
@@ -37,5 +36,15 @@ class RecordedInspectionController extends Controller
         $units = $recorded_inspection->recordedProduct->product->units;
 
         return $units;
+    }
+
+    public function details(RecordedInspection $recordedInspection){
+
+        return $recordedInspection->recordedInspectionDetails->load([
+            'recordedInspectionDetailMapping',
+            'recordedInspectionDetailMapping.item',
+            'recordedInspectionDetailChecking',
+            'recordedInspectionDetailChecking.item',
+        ]);
     }
 }

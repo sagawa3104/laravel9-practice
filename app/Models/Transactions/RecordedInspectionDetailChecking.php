@@ -10,6 +10,11 @@ class RecordedInspectionDetailChecking extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'item_id',
+        'type'
+    ];
+
     public function recordedInspectionDetail()
     {
         return $this->belongsTo(RecordedInspectionDetail::class);

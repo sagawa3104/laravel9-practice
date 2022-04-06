@@ -1,10 +1,11 @@
-const DetailRow = () => {
-
+const DetailRow = ({detail}) => {
     return(
         <tr>
-            <td>value1</td>
-            <td>value2</td>
-            <td>value3</td>
+            <td>{detail.item.code}</td>
+            <td>{detail.item.name}</td>
+            <td>
+                <button className="button">詳細</button>
+            </td>
         </tr>
     )
 }

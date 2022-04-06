@@ -46,6 +46,16 @@ const InspectProduct = () => {
         if(inspection) fetchData();
     }, [inspection]);
 
+    const [inspectionDetails, setInspectionDetails] = useState();
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await axios.get('http://localhost/api/recorded-inspections/' + inspection.id + '/details');
+            setInspectionDetails(res.data);
+        };
+
+        if(inspection) fetchData();
+    }, [inspection]);
+
     const [selectedCategory, setSelectedCategory] = useState({});
     useEffect(() => {
         // 最初のマッピングカテゴリを初期選択にする。
@@ -72,17 +82,71 @@ const InspectProduct = () => {
         setSelectedCell({xPoint:xPoint, yPoint:yPoint});
     }
 
-    const [details, setDetails] = useState([]);
+    const [mappingDetails, setMappingDetails] = useState([]);
+    useEffect(() => {
+        const fetchData = () => {
+            const mappedMappingDetails = inspectionDetails.filter((inspectionDetail)=> inspectionDetail.type === 'MAPPING')
+            .map((inspectionDetail)=> {
+                return {
+                    inspectionDetailId:inspectionDetail.id,
+                    unitId: inspectionDetail.recorded_inspection_detail_mapping.unit_id,
+                    xPoint: inspectionDetail.recorded_inspection_detail_mapping.x_point,
+                    yPoint: inspectionDetail.recorded_inspection_detail_mapping.y_point,
+                    item: inspectionDetail.recorded_inspection_detail_mapping.item
+                }
+            });
+            setMappingDetails(mappedMappingDetails);
+        }
+
+        if(inspectionDetails) fetchData();
+    }, [inspectionDetails]);
+
+    const [checkingDetails, setCheckingDetails] = useState([]);
+    useEffect(() => {
+        const fetchData = () => {
+            const mappedCheckingDetails = inspectionDetails.filter((inspectionDetail)=> inspectionDetail.type === 'CHECKING')
+            .map((inspectionDetail)=> {
+                return {
+                    inspectionDetailId:inspectionDetail.id,
+                    type: inspectionDetail.recorded_inspection_detail_checking.type,
+                    item: inspectionDetail.recorded_inspection_detail_checking.item
+                }
+            });
+            setCheckingDetails(mappedCheckingDetails);
+        }
+
+        if(inspectionDetails) fetchData();
+    }, [inspectionDetails]);
+
     const addDetail = (data) => {
-        console.log(data);
-        const detail = {
+        axios.post('http://localhost/api/recorded-inspections/' + inspection.id + '/details', {
+            type:'MAPPING',
             unitId: selectedUnit.id,
             itemId: data.item,
             xPoint:selectedCell.xPoint,
             yPoint:selectedCell.yPoint
-        };
-        setDetails([...details, detail]);
-        setSelectedCell({});
+        }).then(res=> {
+            setInspectionDetails([...inspectionDetails, res.data]);
+            setSelectedCell({});
+        });
+    }
+
+    const checkItem = (itemId) => {
+        axios.post('http://localhost/api/recorded-inspections/' + inspection.id + '/details', {
+            type:'CHECKING',
+            itemId: itemId,
+        }).then(res=> {
+            setInspectionDetails([...inspectionDetails, res.data]);
+        });
+    }
+
+    const uncheckItem = (itemId) => {
+        const targetDetail = inspectionDetails.filter((detail)=> detail.type === 'CHECKING').find((detail) => detail.recorded_inspection_detail_checking.item_id == itemId);
+        axios.delete('http://localhost/api/recorded-inspections/' + inspection.id + '/details/' + targetDetail.id)
+        .then(res=> {
+            const removedDetails = inspectionDetails.filter((detail) => detail.id !== targetDetail.id);
+            setInspectionDetails([...removedDetails]);
+        });
     }
 
     const props = {
@@ -97,8 +161,11 @@ const InspectProduct = () => {
         selectCell,
         openModal,
         closeModal,
-        details,
+        mappingDetails,
+        checkingDetails,
         addDetail,
+        checkItem,
+        uncheckItem,
     };
 
     const modal = modalName? <AddDetailModal {...props}/>:null;
@@ -107,7 +174,7 @@ const InspectProduct = () => {
             <InfoArea inspectId={params.inspectId} />
             <div className="flex-container">
                 <ActionArea {...props} />
-                <DetailArea/>
+                <DetailArea {...props} />
             </div>
             {modal}
         </div>

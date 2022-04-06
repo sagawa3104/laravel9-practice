@@ -11,6 +11,13 @@ class RecordedInspectionDetailMapping extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'unit_id',
+        'item_id',
+        'x_point',
+        'y_point',
+    ];
+
     public function recordedInspectionDetail()
     {
         return $this->belongsTo(RecordedInspectionDetail::class);

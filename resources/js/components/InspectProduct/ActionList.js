@@ -1,7 +1,7 @@
 const ActionList = (props) => {
 
     const handleClick = () => {
-        console.log("NG登録 clicked");
+        if(!Object.keys(props.selectedCell).length) return;
         props.openModal('add');
     }
 
@@ -20,7 +20,7 @@ const ActionList = (props) => {
                         <div className="vertical-list__item__card button">検査メモ</div>
                     </li>
                     <li className="vertical-list__item">
-                        <div className="vertical-list__item__card button" onClick={handleClick}>NG登録</div>
+                        <button className="vertical-list__item__card button" onClick={handleClick}>NG登録</button>
                     </li>
                 </ul>
             </li>
