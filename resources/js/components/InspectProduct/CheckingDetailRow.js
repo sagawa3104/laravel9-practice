@@ -1,11 +1,29 @@
-const CheckingDetailRow = ({checkingDetails, item, checkItem, uncheckItem}) => {
-    const isChecked = checkingDetails.findIndex(detail => detail.item.id === item.id) !== -1;
+const CheckingDetailRow = ({checkingDetails, item, type, checkItem, uncheckItem}) => {
+    const isChecked = checkingDetails.findIndex((detail) => {
+        if(detail.type === 'ITEM') return detail.item.id === item.id
+        if(detail.type === 'SPECIFICATION') return detail.specification.id === item.id
+        if(detail.type === 'SPECIALSPECIFICATION') return detail.specialSpecification.id === item.id
+    }) !== -1;
     const handleChange = (e) => {
-        console.log(e.target.checked);
+        let params = {};
+        switch (type){
+            case 'ITEM':
+                params.itemType = type;
+                params.itemId = e.target.value;
+                break;
+            case 'SPECIFICATION':
+                params.itemType = type;
+                params.specificationId = e.target.value;
+                break;
+            case 'SPECIALSPECIFICAITON':
+                params.itemType = type;
+                params.specialSpecificationId = e.target.value;
+                break;
+        }
         if(e.target.checked){
-            checkItem(e.target.value);
+            checkItem(params);
         }else{
-            uncheckItem(e.target.value);
+            uncheckItem(params);
         }
     };
     return(

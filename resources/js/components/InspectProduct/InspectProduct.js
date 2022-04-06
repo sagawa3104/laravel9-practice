@@ -109,7 +109,9 @@ const InspectProduct = () => {
                 return {
                     inspectionDetailId:inspectionDetail.id,
                     type: inspectionDetail.recorded_inspection_detail_checking.type,
-                    item: inspectionDetail.recorded_inspection_detail_checking.item
+                    item: inspectionDetail.recorded_inspection_detail_checking.item,
+                    specification: inspectionDetail.recorded_inspection_detail_checking.specification,
+                    specialSpecification: inspectionDetail.recorded_inspection_detail_checking.special_specification,
                 }
             });
             setCheckingDetails(mappedCheckingDetails);
@@ -131,17 +133,22 @@ const InspectProduct = () => {
         });
     }
 
-    const checkItem = (itemId) => {
+    const checkItem = (params) => {
+        console.log(params);
         axios.post('http://localhost/api/recorded-inspections/' + inspection.id + '/details', {
             type:'CHECKING',
-            itemId: itemId,
+            ...params,
         }).then(res=> {
             setInspectionDetails([...inspectionDetails, res.data]);
         });
     }
 
-    const uncheckItem = (itemId) => {
-        const targetDetail = inspectionDetails.filter((detail)=> detail.type === 'CHECKING').find((detail) => detail.recorded_inspection_detail_checking.item_id == itemId);
+    const uncheckItem = (params) => {
+        const targetDetail = inspectionDetails.filter((detail)=> detail.type === 'CHECKING')
+        .find((detail) => {
+            if(params.itemType === 'ITEM') return detail.recorded_inspection_detail_checking.item_id == params.itemId;
+            if(params.itemType === 'SPECIFICATION') return detail.recorded_inspection_detail_checking.specification_id == params.specificationId;
+        });
         axios.delete('http://localhost/api/recorded-inspections/' + inspection.id + '/details/' + targetDetail.id)
         .then(res=> {
             const removedDetails = inspectionDetails.filter((detail) => detail.id !== targetDetail.id);

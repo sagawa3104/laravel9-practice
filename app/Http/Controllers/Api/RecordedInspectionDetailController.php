@@ -26,8 +26,10 @@ class RecordedInspectionDetailController extends Controller
             ]);
         }else{
             $recordedInspectionDetail->recordedInspectionDetailChecking()->create([
-                'type' => 'ITEM',
-                'item_id' => $input['itemId'],
+                'type' => $input['itemType'],
+                'item_id' => isset($input['itemId'])? $input['itemId']:null,
+                'specification_id' => isset($input['specificationId'])? $input['specificationId']:null,
+                'special_specification_id' => isset($input['specialSpecificationId'])? $input['specialSpecificationId']:null,
             ]);
         }
 
@@ -36,6 +38,8 @@ class RecordedInspectionDetailController extends Controller
             'recordedInspectionDetailMapping.item',
             'recordedInspectionDetailChecking',
             'recordedInspectionDetailChecking.item',
+            'recordedInspectionDetailChecking.specification',
+            'recordedInspectionDetailChecking.specialSpecification',
         ]);
     }
 

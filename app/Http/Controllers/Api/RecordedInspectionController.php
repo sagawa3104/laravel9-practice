@@ -20,6 +20,7 @@ class RecordedInspectionController extends Controller
             'phase',
             'recordedProduct',
             'recordedProduct.product',
+            'recordedProduct.product.specifications',
         ]);
         return $recorded_inspection;
     }
@@ -45,6 +46,8 @@ class RecordedInspectionController extends Controller
             'recordedInspectionDetailMapping.item',
             'recordedInspectionDetailChecking',
             'recordedInspectionDetailChecking.item',
+            'recordedInspectionDetailChecking.specification',
+            'recordedInspectionDetailChecking.specialSpecification',
         ]);
     }
 }
