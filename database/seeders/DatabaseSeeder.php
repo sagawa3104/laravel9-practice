@@ -9,6 +9,7 @@ use App\Models\Masters\Product;
 use App\Models\Masters\Specification;
 use App\Models\Masters\Unit;
 use App\Models\Transactions\RecordedProduct;
+use App\Models\Transactions\SpecialSpecification;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -85,7 +86,8 @@ class DatabaseSeeder extends Seeder
         // ここからトランザクション系
         // 品目ごとに製造実績
         $products->each(function($product){
-            $recordedProducts = RecordedProduct::factory()->for($product)->count(5)->create();
+            $recordedProducts = RecordedProduct::factory()->has(SpecialSpecification::factory()->count(5) )
+            ->for($product)->count(5)->create();
             $recordedProducts->each(function($recordedProduct){
                 // 検査実績の生成
                 $recordedProduct->createRecordedInspections();

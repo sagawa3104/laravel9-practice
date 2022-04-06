@@ -4,6 +4,7 @@ use App\Models\Masters\Phase;
 use App\Models\Masters\Product;
 use App\Models\Transactions\RecordedInspection;
 use App\Models\Transactions\RecordedProduct;
+use App\Models\Transactions\SpecialSpecification;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -45,6 +46,20 @@ test('工程との中間(検査実績)モデルを取得できる', function () 
     // Assert
     expect($phase)->recordedProducts->each(function($recordedProduct){
         $recordedProduct->recordedInspection->toBeInstanceOf(RecordedInspection::class);
+    });
+});
+
+test('専用仕様モデルを取得できる', function () {
+    // Arrange
+    $recordedProduct = RecordedProduct::first();
+    SpecialSpecification::factory()->for($recordedProduct)->count(3)->create();
+
+    // Action
+    $recordedProduct->fresh();
+
+    // Assert
+    expect($recordedProduct)->specialSpecifications->each(function($specialSpecification){
+        $specialSpecification->toBeInstanceOf(SpecialSpecification::class);
     });
 });
 

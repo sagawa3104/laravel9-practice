@@ -26,6 +26,11 @@ class RecordedProduct extends Model
         return $this->belongsToMany(Phase::class, 'recorded_inspections')->as('recordedInspection')->withPivot(['id'])->using(RecordedInspection::class);;
     }
 
+    public function specialSpecifications()
+    {
+        return $this->hasMany(SpecialSpecification::class);
+    }
+
     /**
      * 検査実績を作成済か否かでフィルタリング
      *
